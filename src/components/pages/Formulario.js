@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-import useInput from '../../hooks/use-input';
 import Componente from '../UI/Componente';
+import ErrorMessage from '../UI/ErrorMessage';
 
 const Formulario = (props) => {
   const [isValidArray, setIsValidArray] = useState([]);
+  const [isValidForm, setIsValidForm] = useState(true);
 
   const handleValidityChange = (index, isValid) => {
     const updatedIsValidArray = [...isValidArray];
@@ -17,9 +18,10 @@ const Formulario = (props) => {
     const allValid = isValidArray.every(Boolean);
     if (!allValid) {
       // No todos los componentes son válidos
-      alert('todo no ok');
+      setIsValidForm(false);
       return;
     }
+    setIsValidForm(true);
     alert('todo ok');
     // Todos los componentes son válidos, procede con el envío del formulario
   };
@@ -44,6 +46,9 @@ const Formulario = (props) => {
           </button>
         </div>
       </form>
+      {!isValidForm && (
+        <ErrorMessage errorMessage='El formulario no es válido.' />
+      )}
     </>
   );
 };
