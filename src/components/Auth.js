@@ -26,7 +26,7 @@ const Auth = () => {
     >
       <section
         className='bg-light p-5 rounded text-center'
-        style={{ width: '300px', backdropFilter: 'blur(10px)' }}
+        style={{ width: '30%', backdropFilter: 'blur(10px)', minWidth: '50%' }}
       >
         <img
           src={imageLogo}

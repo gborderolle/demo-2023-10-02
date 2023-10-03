@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -22,14 +22,14 @@ const Header = () => {
               {isLoggedIn && (
                 <>
                   <li className='nav-item'>
-                    <a className='nav-link text-white' href='/'>
-                      Dashboard
-                    </a>
+                    <Link className='nav-link text-white' to='formulario'>
+                      Formulario
+                    </Link>
                   </li>
                   <li className='nav-item'>
-                    <a className='nav-link text-white' href='/'>
+                    <Link className='nav-link text-white' to='setup'>
                       Setup
-                    </a>
+                    </Link>
                   </li>
                   <li className='nav-item'>
                     <button
