@@ -1,14 +1,20 @@
 import { useState } from 'react';
 
-const useInput = (validateValue) => {
-  const [enteredValue, setEnteredValue] = useState('');
+const useInput = (validateValue, onChangeCallback, initialValue = '') => {
+  const [enteredValue, setEnteredValue] = useState(initialValue);
   const [isTouched, setIsTouched] = useState(false);
 
   const valueIsValid = validateValue(enteredValue);
   const hasError = !valueIsValid && isTouched;
 
   const valueChangeHandler = (event) => {
-    setEnteredValue(event.target.value);
+    const newValue = event.target.value;
+    setEnteredValue(newValue);
+
+    // Invoca el callback si existe
+    if (onChangeCallback) {
+      onChangeCallback(newValue);
+    }
   };
 
   const inputBlurHandler = (event) => {

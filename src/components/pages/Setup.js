@@ -1,13 +1,8 @@
-import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-import Componente from '../UI/Componente';
 import ErrorMessage from '../UI/ErrorMessage';
 import useInput from '../../hooks/use-input';
 
 const Setup = (props) => {
-  // const [isFormValid, setIsFormValid] = useState(false);
-
   const {
     value: enteredName,
     isValid: enteredNameIsValid,
@@ -33,26 +28,30 @@ const Setup = (props) => {
     : 'form-control';
 
   const loadDummy = async () => {
+    const newItem = {
+      partidoId: uuidv4(),
+      partidoName: enteredName,
+      partidoVotos: 0,
+    };
+
     let id = uuidv4();
-    const response = await fetch(
+    await fetch(
       'https://react-http-23a93-default-rtdb.firebaseio.com/partidos.json',
       {
         method: 'POST',
         body: JSON.stringify({
-          id: id,
-          name: enteredName,
+          partidoId: uuidv4(),
+          partidoName: enteredName,
+          partidoVotos: 0,
         }),
       }
     );
-    if (!response.ok) {
-      throw new Error('Ocurrió un error.');
-    }
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: '500px' }}>
-      <div className="card">
-        <div className="card-body">
+    <div className='container mt-5' style={{ maxWidth: '500px' }}>
+      <div className='card'>
+        <div className='card-body'>
           <form onSubmit={formSubmitHandler}>
             <div className='form-group d-flex align-items-center justify-content-between mb-3'>
               <label htmlFor='input' className='me-3'>

@@ -10,7 +10,11 @@ const Componente = (props) => {
     valueChangeHandler: numberInputChangeHandler,
     inputBlurHandler: numberInputBlurHandler,
     reset: resetNumberInput,
-  } = useInput((value) => value < 200 && value !== '');
+  } = useInput(
+    (value) => value !== '' && value > -1 && value < 200,
+    props.onUpdateVotos, // Aquí va la función que actualizará el estado en el componente Formulario
+    props.defaultValue // valor por defecto para enteredNumber
+  );
 
   useEffect(() => {
     props.onValidityChange(enteredNumberIsValid);
@@ -37,6 +41,7 @@ const Componente = (props) => {
         onChange={numberInputChangeHandler}
         onBlur={numberInputBlurHandler}
         value={enteredNumber}
+        disabled={props.disabled} // Usa la prop disabled para deshabilitar el input
       />
       {numberInputHasError && (
         <div className='invalid-feedback'>Cantidad inválida.</div>
