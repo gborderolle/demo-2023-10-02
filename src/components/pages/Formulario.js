@@ -48,7 +48,6 @@ const Formulario = (props) => {
   );
 
   const data = useLoaderData();
-
   useEffect(() => {
     const loadedPartidos = [];
     for (const key in data) {
