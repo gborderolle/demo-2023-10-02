@@ -1,7 +1,6 @@
 // Importa las funciones necesarias de Firebase
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, remove } from 'firebase/database';
-
 import { useState, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
