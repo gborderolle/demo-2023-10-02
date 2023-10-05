@@ -118,7 +118,6 @@ const Formulario = (props) => {
     <>
       <form onSubmit={formSubmitHandler}>
         <div className='d-flex justify-content-around'>
-          {/* {['609', '5005', '90', '2121'].map((slate, index) => ( */}
           {partidos.map((slate, index) => (
             <Componente
               key={slate.partidoId}

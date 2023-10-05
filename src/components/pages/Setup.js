@@ -30,7 +30,7 @@ const Setup = (props) => {
     if (!enteredNameIsValid1) {
       return;
     }
-    
+
     loadDummy1();
     resetNameInput1();
   };
@@ -91,6 +91,7 @@ const Setup = (props) => {
           partidoId: uuidv4(),
           partidoName: enteredName2,
           partidoVotos: 0,
+          partidoDescription: '',
         }),
       }
     );
