@@ -24,39 +24,35 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 // Define la función para vaciar los partidos en Firebase
-const clearPartidosInFirebase = async () => {
+const clearSlatesInFirebase = async () => {
   try {
-    await remove(ref(database, 'partidos'));
-    // o también puedes utilizar set(ref(database, 'partidos'), null) en lugar de remove():
-    // await set(ref(database, 'partidos'), null);
-    console.log('Nodo partidos vaciado con éxito.');
+    await remove(ref(database, 'slateList'));
   } catch (error) {
-    console.error('Error al vaciar el nodo partidos:', error);
   }
 };
 
 const Formulario = (props) => {
-  const [partidos, setPartidos] = useState([]);
+  const [slates, setSlates] = useState([]);
   const [isValidArray, setIsValidArray] = useState([]);
   const [isValidForm, setIsValidForm] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const totalVotos = partidos.reduce(
-    (total, partido) => total + Number(partido.partidoVotos),
+  const totalVotos = slates.reduce(
+    (total, slate) => total + Number(slate.slateVotes),
     0
   );
 
   const data = useLoaderData();
   useEffect(() => {
-    const loadedPartidos = [];
+    const loadedSlates = [];
     for (const key in data) {
-      loadedPartidos.push({
-        partidoId: data[key].partidoId,
-        partidoName: data[key].partidoName,
-        partidoVotos: data[key].partidoVotos,
+      loadedSlates.push({
+        slateId: data[key].slateId,
+        slateName: data[key].slateName,
+        slateVotes: data[key].slateVotes,
       });
     }
-    setPartidos(loadedPartidos);
+    setSlates(loadedSlates);
   }, [data]);
 
   const validityHandler = (index, isValid) => {
@@ -74,23 +70,22 @@ const Formulario = (props) => {
     }
     setIsValidForm(true);
     setIsDisabled(true); // Deshabilita los campos si el formulario es válido
-    console.log(partidos);
     pushForm();
   };
 
   const pushForm = async () => {
-    await clearPartidosInFirebase();
+    await clearSlatesInFirebase();
 
-    partidos.forEach(async (partido) => {
+    slates.forEach(async (slate) => {
       try {
         await fetch(
-          'https://react-http-23a93-default-rtdb.firebaseio.com/partidos.json',
+          'https://react-http-23a93-default-rtdb.firebaseio.com/slateList.json',
           {
             method: 'POST',
             body: JSON.stringify({
-              partidoId: partido.partidoId,
-              partidoName: partido.partidoName,
-              partidoVotos: partido.partidoVotos,
+              slateId: slate.slateId,
+              slateName: slate.slateName,
+              slateVotes: slate.slateVotes,
             }),
           }
         );
@@ -100,12 +95,12 @@ const Formulario = (props) => {
     });
   };
 
-  const updateVotosHandler = (partidoId, newVotos) => {
-    setPartidos((prevPartidos) =>
-      prevPartidos.map((partido) =>
-        partido.partidoId === partidoId
-          ? { ...partido, partidoVotos: newVotos }
-          : partido
+  const updateVotosHandler = (slateId, newVotos) => {
+    setSlates((prevSlates) =>
+      prevSlates.map((slate) =>
+        slate.slateId === slateId
+          ? { ...slate, slateVotes: newVotos }
+          : slate
       )
     );
   };
@@ -118,14 +113,14 @@ const Formulario = (props) => {
     <>
       <form onSubmit={formSubmitHandler}>
         <div className='d-flex justify-content-around'>
-          {partidos.map((slate, index) => (
+          {slates.map((slate, index) => (
             <Componente
-              key={slate.partidoId}
-              slate={slate.partidoName}
-              defaultValue={slate.partidoVotos}
+              key={slate.slateId}
+              slate={slate.slateName}
+              defaultValue={slate.slateVotes}
               onValidityChange={(isValid) => validityHandler(index, isValid)}
               onUpdateVotos={(newVotos) =>
-                updateVotosHandler(slate.partidoId, newVotos)
+                updateVotosHandler(slate.slateId, newVotos)
               }
               disabled={isDisabled} // Pasa la prop disabled a Componente
             />
@@ -158,7 +153,7 @@ export default Formulario;
 
 export async function loader() {
   const response = await fetch(
-    'https://react-http-23a93-default-rtdb.firebaseio.com/partidos.json'
+    'https://react-http-23a93-default-rtdb.firebaseio.com/slateList.json'
   );
 
   if (!response.ok) {

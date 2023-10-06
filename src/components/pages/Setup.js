@@ -43,6 +43,7 @@ const Setup = (props) => {
     const newItem = {
       partyId: uuidv4(),
       partyName: enteredName1,
+      partyVotes: 0,
     };
 
     let id = uuidv4();
@@ -53,6 +54,7 @@ const Setup = (props) => {
         body: JSON.stringify({
           partyId: uuidv4(),
           partyName: enteredName1,
+          partyVotes: enteredName1,
         }),
       }
     );
@@ -76,22 +78,15 @@ const Setup = (props) => {
     : 'form-control';
 
   const loadDummy2 = async () => {
-    const newItem = {
-      partidoId: uuidv4(),
-      partidoName: enteredName2,
-      partidoVotos: 0,
-    };
-
-    let id = uuidv4();
     await fetch(
-      'https://react-http-23a93-default-rtdb.firebaseio.com/partidos.json',
+      'https://react-http-23a93-default-rtdb.firebaseio.com/slateList.json',
       {
         method: 'POST',
         body: JSON.stringify({
-          partidoId: uuidv4(),
-          partidoName: enteredName2,
-          partidoVotos: 0,
-          partidoDescription: '',
+          slateId: uuidv4(),
+          slateName: enteredName2,
+          slateVotes: 0,
+          slateDescription: '',
         }),
       }
     );
