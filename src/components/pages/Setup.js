@@ -40,13 +40,6 @@ const Setup = (props) => {
     : 'form-control';
 
   const loadDummy1 = async () => {
-    const newItem = {
-      partyId: uuidv4(),
-      partyName: enteredName1,
-      partyVotes: 0,
-    };
-
-    let id = uuidv4();
     await fetch(
       'https://react-http-23a93-default-rtdb.firebaseio.com/partyList.json',
       {
@@ -54,7 +47,7 @@ const Setup = (props) => {
         body: JSON.stringify({
           partyId: uuidv4(),
           partyName: enteredName1,
-          partyVotes: enteredName1,
+          partyVotes: 0,
         }),
       }
     );
